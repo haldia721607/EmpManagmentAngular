@@ -1,0 +1,24 @@
+<form novalidate="novalidate" [formGroup]="editUsersInRoleForm">
+    <div class="card">
+        <div class="card-header">
+            <h2>Add or remove users from this role</h2>
+        </div>
+        <div class="card-body">
+            <div class="form-check m-1" *ngFor="let editUsersInRole of editUsersInRoles ; let i = index">
+                <input type="hidden" formControlName="userId"  [(ngModel)]="editUsersInRole.userId" />
+                <input type="hidden" formControlName="userName" [(ngModel)]="editUsersInRole.userName" />
+                <input type="checkbox" formControlName="isSelected" [(ngModel)]="editUsersInRole.isSelected" name="isSelected" class="form-check-input" />
+                <label class="form-check-label" >
+                    {{editUsersInRole.userName}}
+                </label>
+            </div>
+        </div>
+        <div class="card-footer">
+            <input type="submit" value="Update" class="btn btn-primary" (click)="onUpdateUsersInRollClick()"
+                style="width:auto" />
+            <a [routerLink]="['/admin','roll','editroll',rollid]" class="btn btn-primary ml-1" style="width:auto">
+                Cancel
+            </a>
+        </div>
+    </div>
+</form>

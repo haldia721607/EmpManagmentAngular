@@ -1,0 +1,341 @@
+<div class="row">
+    <div class="col-md-8 col-xl-6 mx-auto">
+        <form [formGroup]="addEmployee" #formDir="ngForm" (ngSubmit)="onSubmitClick()">
+            <div class="card mt-1">
+                <div class="card-header">
+                    <h4>Add Employee</h4>
+                </div>
+                <div class="card-body">
+
+                    <div class="form-group form-row">
+                        <label for="name" class="col-md-4 col-form-label">Name:</label>
+                        <div class="col-md-8">
+                            <input type="text" name="name" id="name" (keypress)="omit_special_char($event)"
+                                placeholder="Name" class="form-control" formControlName="name"
+                                [ngClass]="{'is-invalid': addEmployee.get('name').invalid && (addEmployee.get('name').dirty || addEmployee.get('name').touched || formDir.submitted),
+                                'is-valid': addEmployee.get('name').valid && (addEmployee.get('name').dirty || addEmployee.get('name').touched || formDir.submitted) }">
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('name').invalid && (addEmployee.get('name').dirty || addEmployee.get('name').touched || formDir.submitted) && addEmployee.get('name').errors?.required">
+                                Name can't be blank</span>
+
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('name').invalid && (addEmployee.get('name').dirty || addEmployee.get('name').touched || formDir.submitted) && addEmployee.get('name').errors?.maxLength">First
+                                Max 100 name size</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-row">
+                        <label for="address" class="col-md-4 col-form-label">Address:</label>
+                        <div class="col-md-8">
+                            <input type="text" name="address" id="address" placeholder="Address" class="form-control"
+                                formControlName="address"
+                                [ngClass]="{'is-invalid': addEmployee.get('address').invalid && (addEmployee.get('address').dirty || addEmployee.get('address').touched || formDir.submitted),
+                                'is-valid': addEmployee.get('address').valid && (addEmployee.get('address').dirty || addEmployee.get('address').touched || formDir.submitted) }">
+
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('address').invalid && (addEmployee.get('address').dirty || addEmployee.get('address').touched || formDir.submitted) && addEmployee.get('address').errors?.required">
+                                Address can't be blank</span>
+
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('address').invalid && (addEmployee.get('address').dirty || addEmployee.get('address').touched || formDir.submitted) && addEmployee.get('address').errors?.maxLength">
+                                Max 100 address size</span>
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('address').invalid && (addEmployee.get('address').dirty || addEmployee.get('address').touched || formDir.submitted) && addEmployee.get('address').errors?.pattern">
+                                Only numeric allwowed</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-row">
+                        <label for="pinCode" class="col-md-4 col-form-label">pinCode:</label>
+                        <div class="col-md-8">
+                            <input type="text" name="pinCode" id="pinCode" placeholder="pinCode" class="form-control"
+                                formControlName="pinCode"
+                                [ngClass]="{ 'is-invalid': addEmployee.get('pinCode').invalid && (addEmployee.get('pinCode').dirty || addEmployee.get('pinCode').touched || formDir.submitted),
+                                'is-valid': addEmployee.get('pinCode').valid && (addEmployee.get('pinCode').dirty || addEmployee.get('pinCode').touched || formDir.submitted) }">
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('pinCode').invalid && (addEmployee.get('pinCode').dirty || addEmployee.get('pinCode').touched || formDir.submitted) && addEmployee.get('pinCode').errors?.required">pinCode
+                                can't be blank</span>
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('pinCode').invalid && (addEmployee.get('pinCode').dirty || addEmployee.get('pinCode').touched || formDir.submitted) && addEmployee.get('pinCode').errors?.maxLength">
+                                Max 6 pinCode size</span>
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('address').invalid && (addEmployee.get('address').dirty || addEmployee.get('address').touched || formDir.submitted) && addEmployee.get('address').errors?.pattern">
+                                Only numeric allwowed</span>
+                        </div>
+                    </div>
+                    <div class="form-group form-row">
+                        <label for="genderId" class="col-md-4 col-form-label">Gender:</label>
+                        <div class="col-md-8">
+                            <select name="genderId" id="genderId" class="form-control" formControlName="genderId"
+                                [ngClass]="{
+                                'is-invalid': addEmployee.get('genderId').invalid && (addEmployee.get('genderId').dirty || addEmployee.get('genderId').touched || formDir.submitted),
+                                'is-valid': addEmployee.get('genderId').valid && (addEmployee.get('genderId').dirty || addEmployee.get('genderId').touched || formDir.submitted) }">
+
+                                <option value="">Please Gender </option>
+                                <option *ngFor="let g of gender" [value]="g.genderId">
+                                    {{g.genderName}}
+                                </option>
+                            </select>
+
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('genderId').invalid && (addEmployee.get('genderId').dirty || addEmployee.get('genderId').touched || formDir.submitted) && addEmployee.get('genderId').errors?.required">Please
+                                select gender</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-row">
+                        <label for="CountryId" class="col-md-4 col-form-label">Country:</label>
+                        <div class="col-md-8">
+                            <select name="countryId" id="countryId" class="form-control" formControlName="countryId"
+                                (change)="onChangeCountry($event.target.value)"
+                                [ngClass]="{
+                                'is-invalid': addEmployee.get('countryId').invalid && (addEmployee.get('countryId').dirty || addEmployee.get('countryId').touched || formDir.submitted),
+                                'is-valid': addEmployee.get('countryId').valid && (addEmployee.get('countryId').dirty || addEmployee.get('countryId').touched || formDir.submitted) }">
+
+                                <option value="">Please Select </option>
+                                <option *ngFor="let country of countries" [value]="country.countryId">
+                                    {{country.countryName}}
+                                </option>
+                            </select>
+
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('countryId').invalid && (addEmployee.get('countryId').dirty || addEmployee.get('countryId').touched || formDir.submitted) && addEmployee.get('countryId').errors?.required">Please
+                                select country</span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group form-row">
+                        <label for="stateId" class="col-md-4 col-form-label">State:</label>
+                        <div class="col-md-8">
+                            <select name="stateId" id="stateId" class="form-control" formControlName="stateId"
+                                (change)="onChangeState($event.target.value)"
+                                [ngClass]="{
+                                'is-invalid': addEmployee.get('stateId').invalid && (addEmployee.get('stateId').dirty || addEmployee.get('stateId').touched || formDir.submitted),
+                                'is-valid': addEmployee.get('stateId').valid && (addEmployee.get('stateId').dirty || addEmployee.get('stateId').touched || formDir.submitted) }">
+
+                                <option value="">Please Select </option>
+                                <option *ngFor="let state of states" [value]="state.stateId">
+                                    {{state.stateName}}
+                                </option>
+                            </select>
+
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('stateId').invalid && (addEmployee.get('stateId').dirty || addEmployee.get('stateId').touched || formDir.submitted) && addEmployee.get('stateId').errors?.required">Please
+                                select state</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group form-row">
+                        <label for="cityId" class="col-md-4 col-form-label">City:</label>
+                        <div class="col-md-8">
+                            <select name="cityId" id="cityId" class="form-control" formControlName="cityId"
+                                [ngClass]="{
+                                'is-invalid': addEmployee.get('cityId').invalid && (addEmployee.get('cityId').dirty || addEmployee.get('cityId').touched || formDir.submitted),
+                                'is-valid': addEmployee.get('cityId').valid && (addEmployee.get('cityId').dirty || addEmployee.get('cityId').touched || formDir.submitted) }">
+
+                                <option value="">Please Select </option>
+                                <option *ngFor="let city of cities" [value]="city.cityId">
+                                    {{city.cityName}}
+                                </option>
+                            </select>
+
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('cityId').invalid && (addEmployee.get('cityId').dirty || addEmployee.get('cityId').touched || formDir.submitted) && addEmployee.get('cityId').errors?.required">Please
+                                select city</span>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="form-group form-row">
+                        <label for="fileAsBase64" class="col-md-4 col-form-label">Uplod:</label>
+                        <div class="col-md-8">
+                            <input type="file" name="fileAsBase64" id="fileAsBase64" placeholder="fileAsBase64"
+                                class="form-control" formControlName="fileAsBase64" (change)="onFileChange($event)" 
+                                [ngClass]="{ 'is-invalid': addEmployee.get('fileAsBase64').invalid && (addEmployee.get('fileAsBase64').dirty || addEmployee.get('fileAsBase64').touched || formDir.submitted),
+                                'is-valid': addEmployee.get('fileAsBase64').valid && (addEmployee.get('fileAsBase64').dirty || addEmployee.get('fileAsBase64').touched || formDir.submitted) }">
+
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('fileAsBase64').invalid && (addEmployee.get('fileAsBase64').dirty || addEmployee.get('fileAsBase64').touched || formDir.submitted) && addEmployee.get('fileAsBase64').errors?.required">File
+                                can't be blank</span>
+                        </div>
+                    </div>
+
+                    <div *ngIf="messages.length > 0">
+                        <span style="color: green;" *ngFor="let msg of messages">
+                            {{msg}}
+                            <br />
+                        </span>
+                    </div>
+
+                    <!-- <div class="form-group form-row">
+                        <label for="dateOfBirth" class="col-md-4 col-form-label">Date of Birth:</label>
+                        <div class="col-md-8">
+                            <input type="date" name="dateOfBirth" id="dateOfBirth" placeholder="Date of Birth"
+                                class="form-control" formControlName="dateOfBirth"
+                                [ngClass]="{
+                                    'is-invalid': addEmployee.get('dateOfBirth').invalid && (addEmployee.get('dateOfBirth').dirty || addEmployee.get('dateOfBirth').touched || formDir.submitted),
+                                    'is-valid': addEmployee.get('dateOfBirth').valid && (addEmployee.get('dateOfBirth').dirty || addEmployee.get('dateOfBirth').touched || formDir.submitted) }">
+
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('dateOfBirth').invalid && (addEmployee.get('dateOfBirth').dirty || addEmployee.get('dateOfBirth').touched || formDir.submitted) && addEmployee.get('dateOfBirth').errors?.required">Date
+                                of Birth can't be blank</span>
+
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('dateOfBirth').invalid && (addEmployee.get('dateOfBirth').dirty || addEmployee.get('dateOfBirth').touched || formDir.submitted) && addEmployee.get('dateOfBirth').errors?.minAge">Minimum
+                                Age must be 18</span>
+                        </div>
+                    </div> -->
+
+                    <!-- <div class="form-group form-row">
+                        <label for="password" class="col-md-4 col-form-label">Password:</label>
+                        <div class="col-md-8">
+                            <input type="password" name="password" id="password" placeholder="Password"
+                                class="form-control" formControlName="password"
+                                [ngClass]="{
+                            'is-invalid': addEmployee.get('password').invalid && (addEmployee.get('password').dirty || addEmployee.get('password').touched || formDir.submitted),
+            
+                            'is-valid': addEmployee.get('password').valid && (addEmployee.get('password').dirty || addEmployee.get('password').touched || formDir.submitted) }">
+
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('password').invalid && (addEmployee.get('password').dirty || addEmployee.get('password').touched || formDir.submitted) && addEmployee.get('password').errors?.required">Password
+                                can't be blank</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-row">
+                        <label for="confirmPassword" class="col-md-4 col-form-label">Confirm Password:</label>
+                        <div class="col-md-8">
+                            <input type="password" name="confirmPassword" id="confirmPassword"
+                                placeholder="Confirm Password" class="form-control" formControlName="confirmPassword"
+                                [ngClass]="{
+                            'is-invalid': addEmployee.get('confirmPassword').invalid && (addEmployee.get('confirmPassword').dirty || addEmployee.get('confirmPassword').touched || formDir.submitted),
+            
+                            'is-valid': addEmployee.get('confirmPassword').valid && (addEmployee.get('confirmPassword').dirty || addEmployee.get('confirmPassword').touched || formDir.submitted) }">
+
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('confirmPassword').invalid && (addEmployee.get('confirmPassword').dirty || addEmployee.get('confirmPassword').touched || formDir.submitted) && addEmployee.get('confirmPassword').errors?.required">Confirm
+                                Password can't be blank</span>
+
+                            <span class="text-danger"
+                                *ngIf="addEmployee.invalid && (addEmployee.dirty || addEmployee.touched || formDir.submitted) && addEmployee.get('confirmPassword').errors?.compareValidator">Password
+                                and Confirm Password do not match</span>
+                        </div>
+                    </div> -->
+
+                    <!-- This is example for static radio button bind  -->
+                    <!-- <div class="form-group form-row">
+                        <label class="col-md-4 col-form-label">Gender:</label>
+                        <div class="col-md-8">
+
+                            <div class="form-check-label form-check-inline">
+                                <input type="radio" name="gender" id="male" value="male" class="form-check-input"
+                                    formControlName="gender">
+                                <label for="male" class="form-check-label">Male</label>
+                            </div>
+
+                            <div class="form-check-label form-check-inline">
+                                <input type="radio" name="gender" id="female" value="female" class="form-check-input"
+                                    formControlName="gender">
+                                <label for="female" class="form-check-label">Female</label>
+                            </div>
+
+                        </div>
+                    </div> -->
+
+                    <!-- This is example for dynamic radio button bind  -->
+                    <!-- <div class="form-group form-row">
+                        <label class="col-md-4 col-form-label">Gender:</label>
+                        <div class="col-md-8">
+                            <div class="form-check-label form-check-inline" *ngFor="let gender of gender">
+                                <input type="radio" name="gender" [id]="gender.genderId" [value]="gender.genderId"
+                                    class="form-check-input" formControlName="genderId">
+                                <label [for]="gender.genderId" class="form-check-label">{{gender.genderName}}</label>
+
+                                <span class="text-danger"
+                                    *ngIf="addEmployee.get('gender').invalid && (addEmployee.get('gender').dirty || addEmployee.get('gender').touched || formDir.submitted) && addEmployee.get('gender').errors?.required">Please
+                                    select gender</span>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <!--<div class="form-group form-row">
+                        <label for="CountryId" class="col-md-4 col-form-label">Country:</label>
+                        <div class="col-md-8">
+                            <select name="countryId" id="countryId" class="form-control" formControlName="countryId"
+                                [ngClass]="{
+                                'is-invalid': addEmployee.get('countryId').invalid && (addEmployee.get('countryId').dirty || addEmployee.get('countryId').touched || formDir.submitted),
+                                'is-valid': addEmployee.get('countryId').valid && (addEmployee.get('countryId').dirty || addEmployee.get('countryId').touched || formDir.submitted) }">
+
+                                <option value="null">Please Select </option>
+                                <option *ngFor="let country of countries" [value]="country.CountryID">
+                                    {{country.CountryName}}
+                                </option>
+                            </select>
+
+                            <span class="text-danger"
+                                *ngIf="addEmployee.get('countryId').invalid && (addEmployee.get('countryId').dirty || addEmployee.get('countryId').touched || formDir.submitted) && addEmployee.get('countryId').errors?.required">Please
+                                select country</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-row">
+                        <label class="col-md-4 col-form-label"></label>
+                        <div class="col-md-8">
+                            <input type="checkbox" name="receiveNewsLetters" id="receiveNewsLetters" value="true"
+                                class="form-check-input" formControlName="receiveNewsLetters">
+                            <label for="receiveNewsLetters" class="form-check-label">Receive News Letters</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-row">
+                        <label class="col-md-4 col-form-label">Skills:</label>
+                        <div class="col-md-8" formArrayName="skills">
+                            <div class="row" *ngFor="let skill of addEmployee.get('skills')['controls']; let i = index"
+                                [formGroupName]="i">
+
+                                <div class="col-5">
+                                    <input type="text" name="skillName" id="skillName" placeholder="Skill Name"
+                                        formControlName="skillName" class="form-control"
+                                        [ngClass]="{
+                                            'is-invalid': skill.get('skillName').invalid && (skill.get('skillName').dirty || skill.get('skillName').touched || formDir.submitted),
+                                            'is-valid': skill.get('skillName').valid && (skill.get('skillName').dirty || skill.get('skillName').touched || formDir.submitted) }">
+                                </div>
+
+                                <div class="col-4">
+                                    <select name="level" id="level" formControlName="level" class="form-control"
+                                        [ngClass]="{
+                                        'is-invalid': skill.get('level').invalid && (skill.get('level').dirty || skill.get('level').touched || formDir.submitted),
+                                        'is-valid': skill.get('level').valid && (skill.get('level').dirty || skill.get('level').touched || formDir.submitted) }">
+
+                                        <option value="null">Please Select</option>
+                                        <option value="Beginner">Beginner</option>
+                                        <option value="Intermediate">Intermediate</option>
+                                        <option value="Professional">Professional</option>
+                                        <option value="Expert">Expert</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-3">
+                                    <button class="btn btn-danger" type="button"
+                                        (click)="onRemoveClick(i)">Remove</button>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary" type="button" (click)="onAddSkill()">Add Skill</button>
+                        </div>
+                    </div> -->
+
+                    <div class="card-footer">
+                        <button class="btn btn-success float-right">Create Account</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,162 @@
+<h1>Edit User</h1>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-content">
+                    <div class="form-group  row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-4">
+                            <h3>Update User</h3>
+                        </div>
+                        <div class="col-sm-4"></div>
+                    </div>
+                    <form class="m-t" novalidate="novalidate" [formGroup]="editUserForm" #CreateForm="ngForm">
+                        <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <label class="col-sm-2 col-form-label">Id</label>
+                            <div class="col-sm-6">
+                                <label class="col-sm-6 col-form-label">{{editUser.id}}</label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <label class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-6">
+                                <input formControlName="email" class="form-control" [(ngModel)]="editUser.email"
+                                    [ngClass]="{ 'is-invalid': editUserForm.get('email').invalid && (editUserForm.get('email').dirty || editUserForm.get('email').touched || CreateForm.submitted),
+                                    'is-valid': editUserForm.get('email').valid && (editUserForm.get('email').dirty || editUserForm.get('email').touched || CreateForm.submitted) }">
+
+                                <span class="text-danger"
+                                    *ngIf="editUserForm.get('email').invalid && (editUserForm.get('email').dirty || editUserForm.get('email').touched || CreateForm.submitted) && editUserForm.get('email').errors?.required">Email
+                                    can't be blank</span>
+
+                                <span class="text-danger"
+                                    *ngIf="editUserForm.get('email').invalid && (editUserForm.get('email').dirty || editUserForm.get('email').touched || CreateForm.submitted) && editUserForm.get('email').errors?.email">Email
+                                    is invalid</span>
+
+                                <span class="text-danger"
+                                    *ngIf="editUserForm.get('email').invalid && (editUserForm.get('email').dirty || editUserForm.get('email').touched || CreateForm.submitted) && editUserForm.get('email').errors?.uniqueEmail">Email
+                                    already exists</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <label class="col-sm-2 col-form-label">Name</label>
+                            <div class="col-sm-6">
+                                <input formControlName="name" class="form-control" [(ngModel)]="editUser.userName" 
+                                    [ngClass]="{ 'is-invalid': editUserForm.get('name').invalid && (editUserForm.get('name').dirty || editUserForm.get('name').touched || CreateForm.submitted), 'is-valid': editUserForm.get('name').valid && (editUserForm.get('name').dirty || editUserForm.get('name').touched || CreateForm.submitted) }">
+
+                                <span class="text-danger"
+                                    *ngIf="editUserForm.get('name').invalid && (editUserForm.get('name').dirty || editUserForm.get('name').touched || CreateForm.submitted) && editUserForm.get('name').errors?.required">
+                                    Name can't be blank</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <label class="col-sm-2 col-form-label">Country</label>
+                            <div class="col-sm-3">
+                                <select id="ddlcountry" formControlName="countryId" class="form-control" (change)="onChangeCountry($event.target.value)"
+                                    [(ngModel)]="editUser.countryId"
+                                    [ngClass]="{
+                                    'is-invalid': editUserForm.get('countryId').invalid && (editUserForm.get('countryId').dirty || editUserForm.get('countryId').touched || CreateForm.submitted),
+                                    'is-valid': editUserForm.get('countryId').valid && (editUserForm.get('countryId').dirty || editUserForm.get('countryId').touched || CreateForm.submitted) }">
+                                    <option value="">Select Country</option>
+                                    <option *ngFor="let country of editUser.countries" [value]="country.countryId">
+                                        {{country.countryName}}</option>
+                                </select>
+                                <span class="text-danger"
+                                    *ngIf="editUserForm.get('countryId').invalid && (editUserForm.get('countryId').dirty || editUserForm.get('countryId').touched || CreateForm.submitted) && editUserForm.get('countryId').errors?.required">
+                                    Select Country</span>
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="bState">
+                        <!-- <div class="form-group row"> -->
+                            <div class="col-sm-2"></div>
+                            <label class="col-sm-2 col-form-label">State</label>
+                            <div class="col-sm-3">
+                                <select id="ddlstate" formControlName="stateId" class="form-control"
+                                    [(ngModel)]="editUser.stateId" (change)="onChangeState($event.target.value)"
+                                    [ngClass]="{
+                                'is-invalid': editUserForm.get('stateId').invalid && (editUserForm.get('stateId').dirty || editUserForm.get('stateId').touched || CreateForm.submitted),
+                                'is-valid': editUserForm.get('stateId').valid && (editUserForm.get('stateId').dirty || editUserForm.get('stateId').touched || CreateForm.submitted) }">
+                                    <option value="">Select State</option>
+                                    <option *ngFor="let state of editUser.states" [value]="state.stateId">
+                                        {{state.stateName}}
+                                    </option>
+                                </select>
+                                <span class="text-danger"
+                                    *ngIf="editUserForm.get('stateId').invalid && (editUserForm.get('stateId').dirty || editUserForm.get('stateId').touched || CreateForm.submitted) && editUserForm.get('stateId').errors?.required">
+                                    Select State </span>
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="bCity">
+                        <!-- <div class="form-group row"> -->
+                            <div class="col-sm-2"></div>
+                            <label class="col-sm-2 col-form-label">City</label>
+                            <div class="col-sm-3">
+                                <select id="ddlcity" formControlName="cityId" class="form-control"
+                                    [(ngModel)]="editUser.cityId"
+                                    [ngClass]="{
+                                    'is-invalid': editUserForm.get('cityId').invalid && (editUserForm.get('cityId').dirty || editUserForm.get('cityId').touched || CreateForm.submitted),
+                                    'is-valid': editUserForm.get('cityId').valid && (editUserForm.get('cityId').dirty || editUserForm.get('cityId').touched || CreateForm.submitted) }">
+                                    <option value="">Select City</option>
+                                    <option *ngFor="let citie of editUser.cities" [value]="citie.cityId">
+                                        {{citie.cityName}}
+                                    </option>
+                                </select>
+                                <span class="text-danger"
+                                    *ngIf="editUserForm.get('cityId').invalid && (editUserForm.get('cityId').dirty || editUserForm.get('cityId').touched || CreateForm.submitted) && editUserForm.get('cityId').errors?.required">
+                                    Select City </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-primary" (click)="onUpdateClick()">Update</button>
+                            </div>
+                            <div class="col-sm-2">
+                                <a [routerLink]="['/admin','user']" class="btn btn-google btn-block"> Back to users
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>User Roles</h3>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title" *ngFor="let role of editUser.roles">{{role}}</h5>
+
+                                <h5 class="card-title" *ngIf="editUser.roles.length==0">None at the moment</h5>
+
+                            </div>
+                            <div class="card-footer">
+                                <a [routerLink]="['/admin','user','editUser','manageUserRoles',userId]"
+                                    class="btn btn-primary"> Manage Roles
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <h3>User Claims</h3>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title" *ngFor="let clame of editUser.claims">{{clame}}</h5>
+                                <h5 class="card-title" *ngIf="editUser.claims.length==0">None at the moment</h5>
+                            </div>
+                            <div class="card-footer">
+                                <a [routerLink]="['/admin','user','editUser','manageUserClaims',userId]"
+                                    class="btn btn-primary"> Manage
+                                    Claims
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

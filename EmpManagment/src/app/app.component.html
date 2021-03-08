@@ -1,0 +1,14 @@
+<div id="wrapper">
+    <app-leftsidemenu></app-leftsidemenu>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <app-header></app-header>
+        <div [@routeAnimations]="getState(outlet)">
+            <router-outlet #outlet="outlet"></router-outlet>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>
+<!-- Scroll to top -->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>

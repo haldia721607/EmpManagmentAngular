@@ -1,0 +1,33 @@
+<div class="text-center">
+    <h1 class="h4 text-gray-900 mb-4">Add Roll</h1>
+</div>
+<form novalidate="novalidate" [formGroup]="newForm" #CreateForm="ngForm">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <label>Roll Name</label>
+                <input type="text" class="form-control" id="txtRollName" maxlength="30" #defaultTextBox_New
+                    name="rollName" formControlName="rollName" placeholder="Enter Roll Name"
+                    [ngClass]="{ 'is-invalid': newForm.get('rollName').invalid && (newForm.get('rollName').dirty || newForm.get('rollName').touched || CreateForm.submitted), 'is-valid': newForm.get('rollName').valid && (newForm.get('rollName').dirty || newForm.get('rollName').touched || CreateForm.submitted) }">
+
+                <span class="text-danger"
+                    *ngIf="newForm.get('rollName').invalid && (newForm.get('rollName').dirty || newForm.get('rollName').touched || CreateForm.submitted) && newForm.get('rollName').errors?.required">Roll
+                    Name can't be blank</span>
+                <span class="text-center" style="color: green;" *ngIf="bSucceed">{{message}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-4 mt-3">
+                <button type="submit" class="btn btn-primary btn-block" (click)="onSaveClick()">Save</button>
+            </div>
+            <div class="col-md-4 mt-3">
+                <a [routerLink]="['/admin','roll']" class="btn btn-google btn-block"> Back to rolls
+                </a>
+            </div>
+        </div>
+    </div>
+</form>

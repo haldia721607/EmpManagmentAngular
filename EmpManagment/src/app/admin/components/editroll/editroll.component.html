@@ -1,0 +1,59 @@
+<div class="text-center">
+    <h1 class="h4 text-gray-900 mb-4">Add Roll</h1>
+</div>
+<form novalidate="novalidate" [formGroup]="editForm" #EditForm="ngForm">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <label>Roll Name</label>
+                <input type="hidden"  formControlName="id">
+                <input type="text" class="form-control" id="txtRollName" maxlength="30" #defaultTextBox_New
+                    name="rollName" formControlName="rollName" placeholder="Enter Roll Name"
+                    [ngClass]="{ 'is-invalid': editForm.get('rollName').invalid && (editForm.get('rollName').dirty || editForm.get('rollName').touched || EditForm.submitted), 'is-valid': editForm.get('rollName').valid && (editForm.get('rollName').dirty || editForm.get('rollName').touched || EditForm.submitted) }">
+
+                <span class="text-danger"
+                    *ngIf="editForm.get('rollName').invalid && (editForm.get('rollName').dirty || editForm.get('rollName').touched || EditForm.submitted) && editForm.get('rollName').errors?.required">Roll
+                    Name can't be blank</span>
+                <span class="text-center" style="color: green;" *ngIf="bSucceed">{{message}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-4 mt-3">
+                <button type="submit" class="btn btn-primary btn-block" (click)="onUpdateClick()">Save</button>
+            </div>
+            <div class="col-md-4 mt-3">
+                <a [routerLink]="['/admin','roll']" class="btn btn-google btn-block"> Back to rolls
+                </a>
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Users in this role</h3>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title" *ngFor="let user of usersInRole">{{user.name}}</h5>
+                        <ng-container *ngIf="usersInRole == null">
+                            <h5 class="card-title">None at the moment</h5>
+                        </ng-container>
+                    </div>
+                    <div class="card-footer">
+                        <!-- <button type="submit" class="btn btn-primary btn-block" (click)="onEditUsersInEoleClick()">Add or remove users from this role</button> -->
+                        <a [routerLink]="['/admin','roll','editroll','editusersinrole',rollid]" class="btn btn-primary">
+                            Add or remove users from this role
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,181 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-content">
+                    <div class="form-group  row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-4">
+                            <h3>New User</h3>
+                        </div>
+                        <div class="col-sm-4">
+
+                        </div>
+                    </div>
+                    <form class="m-t" novalidate="novalidate" [formGroup]="userForm" #CreateForm="ngForm">
+                        <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <label class="col-sm-2 col-form-label">Name</label>
+                            <div class="col-sm-6">
+                                <input type="text" formControlName="name" class="form-control" placeholder="Name"
+                                    #userNameTextBox
+                                    [ngClass]="{ 'is-invalid': userForm.get('name').invalid && (userForm.get('name').dirty || userForm.get('name').touched || CreateForm.submitted), 'is-valid': userForm.get('name').valid && (userForm.get('name').dirty || userForm.get('name').touched || CreateForm.submitted) }">
+                                <span class="text-danger"
+                                    *ngIf="userForm.get('name').invalid && (userForm.get('name').dirty || userForm.get('name').touched || CreateForm.submitted) && userForm.get('name').errors?.required">
+                                    Name can't be blank</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <label class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-6">
+                                <input type="email" formControlName="email" class="form-control" placeholder="Email"
+                                    [ngClass]="{ 'is-invalid': userForm.get('email').invalid && (userForm.get('email').dirty || userForm.get('email').touched || CreateForm.submitted),
+                                'is-valid': userForm.get('email').valid && (userForm.get('email').dirty || userForm.get('email').touched || CreateForm.submitted) }">
+                                <span class="text-danger"
+                                    *ngIf="userForm.get('email').invalid && (userForm.get('email').dirty || userForm.get('email').touched || CreateForm.submitted) && userForm.get('email').errors?.required">Email
+                                    can't be blank</span>
+
+                                <span class="text-danger"
+                                    *ngIf="userForm.get('email').invalid && (userForm.get('email').dirty || userForm.get('email').touched || CreateForm.submitted) && userForm.get('email').errors?.email">Email
+                                    is invalid</span>
+
+                                <span class="text-danger"
+                                    *ngIf="userForm.get('email').invalid && (userForm.get('email').dirty || userForm.get('email').touched || CreateForm.submitted) && userForm.get('email').errors?.uniqueEmail">Email
+                                    already exists</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <label class="col-sm-2 col-form-label">Password</label>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control" formControlName="password"
+                                    placeholder="Password"
+                                    [ngClass]="{'is-invalid': userForm.get('password').invalid && (userForm.get('password').dirty || userForm.get('password').touched || CreateForm.submitted),
+                                    'is-valid': userForm.get('password').valid && (userForm.get('password').dirty || userForm.get('password').touched || CreateForm.submitted) }">
+                                <span class="text-danger"
+                                    *ngIf="userForm.get('password').invalid && (userForm.get('password').dirty || userForm.get('password').touched || CreateForm.submitted) && userForm.get('password').errors?.required">Password
+                                    can't be blank</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <label class="col-sm-2 col-form-label">Confirm Password</label>
+                            <div class="col-sm-6">
+                                <input type="password" formControlName="confirmPassword" class="form-control"
+                                    placeholder="Confirm Password"
+                                    [ngClass]="{
+                                        'is-invalid': userForm.get('confirmPassword').invalid && (userForm.get('confirmPassword').dirty || userForm.get('confirmPassword').touched || CreateForm.submitted),
+                                        'is-valid': userForm.get('confirmPassword').valid && (userForm.get('confirmPassword').dirty || userForm.get('confirmPassword').touched || CreateForm.submitted) }">
+
+                                <span class="text-danger"
+                                    *ngIf="userForm.get('confirmPassword').invalid && (userForm.get('confirmPassword').dirty || userForm.get('confirmPassword').touched || CreateForm.submitted) && userForm.get('confirmPassword').errors?.required">Confirm
+                                    Password can't be blank</span>
+
+                                <span class="text-danger"
+                                    *ngIf="userForm.invalid && (userForm.dirty || userForm.touched || CreateForm.submitted) && userForm.get('confirmPassword').errors?.compareValidator">Password
+                                    and Confirm Password do not match</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <label class="col-sm-2 col-form-label">Country</label>
+                            <div class="col-sm-6">
+                                <select id="ddlcountry" formControlName="countryId" class="form-control" (change)="onChangeCountry($event.target.value)"
+                                    [ngClass]="{
+                                    'is-invalid': userForm.get('countryId').invalid && (userForm.get('countryId').dirty || userForm.get('countryId').touched || CreateForm.submitted),
+                                    'is-valid': userForm.get('countryId').valid && (userForm.get('countryId').dirty || userForm.get('countryId').touched || CreateForm.submitted) }">
+                                    <option value="null">Select Country</option>
+                                    <option *ngFor="let country of countries" [value]="country.countryId">
+                                        {{country.countryName}}</option>
+                                </select>
+                                <span class="text-danger"
+                                    *ngIf="userForm.get('countryId').invalid && (userForm.get('countryId').dirty || userForm.get('countryId').touched || CreateForm.submitted) && userForm.get('countryId').errors?.required">
+                                    Select Country</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" *ngIf="bState">
+                            <div class="col-sm-2"></div>
+                            <label class="col-sm-2 col-form-label">State</label>
+                            <div class="col-sm-6">
+                                <select id="ddlstate" formControlName="stateId" class="form-control" (change)="onChangeState($event.target.value)"
+                                    [ngClass]="{
+                                    'is-invalid': userForm.get('stateId').invalid && (userForm.get('stateId').dirty || userForm.get('stateId').touched || CreateForm.submitted),
+                                    'is-valid': userForm.get('stateId').valid && (userForm.get('stateId').dirty || userForm.get('stateId').touched || CreateForm.submitted) }">
+                                    <option value="null">Select State</option>
+                                    <option *ngFor="let state of states" [value]="state.stateId"> {{state.stateName}}
+                                    </option>
+                                </select>
+                                <span class="text-danger"
+                                    *ngIf="userForm.get('stateId').invalid && (userForm.get('stateId').dirty || userForm.get('stateId').touched || CreateForm.submitted) && userForm.get('stateId').errors?.required">
+                                    Select State </span>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row" *ngIf="bCity">
+                            <div class="col-sm-2"></div>
+                            <label class="col-sm-2 col-form-label">City</label>
+                            <div class="col-sm-6">
+                                <select id="ddlcity" formControlName="cityId" class="form-control" 
+                                    [ngClass]="{
+                                    'is-invalid': userForm.get('cityId').invalid && (userForm.get('cityId').dirty || userForm.get('cityId').touched || CreateForm.submitted),
+                                    'is-valid': userForm.get('cityId').valid && (userForm.get('cityId').dirty || userForm.get('cityId').touched || CreateForm.submitted) }">
+                                    <option value="null">Select City</option>
+                                    <option *ngFor="let citie of cities" [value]="citie.cityId"> {{citie.cityName}}
+                                    </option>
+                                </select>
+                                <span class="text-danger"
+                                    *ngIf="userForm.get('cityId').invalid && (userForm.get('cityId').dirty || userForm.get('cityId').touched || CreateForm.submitted) && userForm.get('cityId').errors?.required">
+                                    Select City </span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <label class="col-sm-2 col-form-label">Terms & Policy</label>
+                            <div class="col-sm-6">
+                                <div class="checkbox"><label> <input type="checkbox"
+                                            formControlName="termsAndPolicy"><i></i>
+                                        Agree the terms and policy </label></div>
+                                <span class="text-danger"
+                                    *ngIf="userForm.get('termsAndPolicy').invalid &&  CreateForm.submitted && userForm.get('termsAndPolicy').errors?.required">Please
+                                    check the terms and policy</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-primary block full-width m-b"
+                                    (click)="onSaveClick()">Register</button>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <a [routerLink]="['/admin','user']" class="btn btn-google btn-block"> Back to users
+                                </a>
+                            </div>
+
+                        </div>
+                        <!-- @if (!SignInManager.IsSignedIn(User))
+                        {
+                        <div class="form-group row">
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-2">
+                                <p class="text-muted text-center"><small>Already have an account?</small></p>
+                            </div>
+                            <div class="col-sm-2">
+                                <a class="btn btn-sm btn-white btn-block" href="@Url.Action(" Login","Account",new {
+                                    Area="Comman" })">Login</a>
+                            </div>
+                        </div>
+                        } -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
